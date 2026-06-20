@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz de Computadores</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+    }
+
+    .quiz-container {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        text-align: center;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #4facfe;
+        color: white;
+        font-size: 16px;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #2f8df7;
+    }
+
+    #resultado {
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+</style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1>🖥️ Quiz de Computadores</h1>
+    <h2 id="pergunta"></h2>
+    <div id="respostas"></div>
+    <p id="resultado"></p>
+</div>
+
+<script>
+const perguntas = [
+{
+    pergunta: "Qual dispositivo é usado para mover o cursor na tela?",
+    respostas: ["Teclado", "Mouse", "Monitor", "Impressora"],
+    correta: 1
+},
+{
+    pergunta: "Qual parte do computador mostra as imagens?",
+    respostas: ["Mouse", "Gabinete", "Monitor", "Caixa de Som"],
+    correta: 2
+},
+{
+    pergunta: "Qual tecla normalmente usamos para apagar letras?",
+    respostas: ["Enter", "Shift", "Backspace", "Ctrl"],
+    correta: 2
+},
+{
+    pergunta: "Qual destes é um navegador de internet?",
+    respostas: ["Google Chrome", "Word", "Paint", "Excel"],
+    correta: 0
+},
+{
+    pergunta: "Qual aparelho imprime documentos em papel?",
+    respostas: ["Monitor", "Mouse", "Scanner", "Impressora"],
+    correta: 3
+}
+];
+
+let indice = 0;
+let pontos = 0;
+
+const perguntaEl = document.getElementById("pergunta");
+const respostasEl = document.getElementById("respostas");
+const resultadoEl = document.getElementById("resultado");
+
+function mostrarPergunta() {
+    const atual = perguntas[indice];
+
+    perguntaEl.textContent = `${indice + 1}. ${atual.pergunta}`;
+    respostasEl.innerHTML = "";
+
+    atual.respostas.forEach((resposta, i) => {
+        const btn = document.createElement("button");
+        btn.classList.add("btn");
+        btn.textContent = resposta;
+
+        btn.onclick = () => {
+            if (i === atual.correta) {
+                pontos++;
+            }
+
+            indice++;
+
+            if (indice < perguntas.length) {
+                mostrarPergunta();
+            } else {
+                mostrarResultado();
+            }
+        };
+
+        respostasEl.appendChild(btn);
+    });
+}
+
+function mostrarResultado() {
+    perguntaEl.textContent = "Quiz Finalizado!";
+    respostasEl.innerHTML = "";
+
+    resultadoEl.innerHTML =
+        `Você acertou <strong>${pontos}</strong> de <strong>${perguntas.length}</strong> perguntas! 🎉`;
+}
+
+mostrarPergunta();
+</script>
+
+</body>
+</html>
